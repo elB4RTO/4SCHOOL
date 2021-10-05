@@ -1,0 +1,83 @@
+#!/usr/bin/python3
+
+from sys import argv
+from gmpy2 import *
+
+process = sign = ""
+module = phase = real = immag = 0.0
+
+# GET COMMAND-LINE ARGUMENTS
+def getARGS():
+	global process, module, phase, real, immag, sign
+	
+	try:
+		process = argv[1]
+	except:
+		process = "help"
+
+	if process == "help":
+		print("\n\
+\033[3mUsage\033[0m: \033[1mconv2\033[0m [\033[1;3mOPTIONS\033[0m] [\033[1;3mDATA\033[0m]\n\n\
+\033[3mOptions\033[0m:\n\
+  \033[1mpol\033[0m   Convert rectangular coordinates to polar coordinates\n\
+  \033[1mrec\033[0m   Convert polar coordinates to rectangular coordinates\n\n\
+\033[3mSyntax\033[0m:\n\
+  \033[1mpol\033[0m [\033[1;3mreal\033[0m] \033[1m+\033[0;2m/\033[0;1m-\033[0m [\033[1;3mimaginary\033[0m]\n\
+  \033[1mrec\033[0m [\033[1;3mmodule\033[0m] \033[1mf\033[0m [\033[1;3mphase\033[0m]\n")
+		exit()
+	
+	elif process == "pol":
+		real	= float( argv[2] )
+		sign	= str(   argv[3] )
+		if sign == "+":
+			immag	= float( argv[4].strip('j') )
+		elif sign == "-":
+			immag	= float( argv[4].strip('j') ) * (-1)
+		else:
+			exit("Required syntax: [\033[1;3mreal\033[0m] \033[1m+\033[0;2m/\033[0;1m-\033[0m [\033[1;3mimaginary\033[0m]")
+	
+	elif process == "rec":
+		module	= float( argv[2] )
+		if argv[3] != "f":
+			exit("Required syntax: [\033[1;3mmodule\033[0m] \033[1mf\033[0m [\033[1;3mphase\033[0m]")
+		phase	= radians( float(argv[4]) )
+	
+	else:
+		exit("Option \033[1m{}\033[0m is not valid".format(process))
+	
+# POLAR TO RECTANGULAR
+def pol2rec():
+	aux	= str(rect(module,phase))
+	
+	if aux.find('+') >= 0:
+		aux = aux.split('+')
+	else:
+		aux = aux.split('-')
+	
+	real	= float( aux[0] )
+	immag	= float( aux[1].rstrip('j') )
+	
+	if immag >= 0:
+		print("\n%s + j%s" %( real, immag ))
+	else:
+		print("\n%s - j%s" %( real, immag*(-1) ))
+
+# RECTANGULAR TO POLAR
+def rec2pol():
+	if immag >= 0:
+		module, phase = polar(mpc("%s+%sj" %(real, immag)))
+	else:
+		module, phase = polar(mpc("%s%sj" %(real, immag)))
+
+	phase	= degrees(phase)
+	
+	print("\n%s ∢ %s" %( module, phase ))
+
+
+# STARTING MAIN PROCESS
+getARGS()
+
+if process == "pol":	rec2pol()
+else:					pol2rec()
+
+print("\n", end="")
