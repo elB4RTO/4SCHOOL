@@ -1,0 +1,10 @@
+these programs are made to convert POLAR coordinates (degrees) to RECTANGULAR coordinates
+
+these two files do the same things but run in different manners:
+
+conv.py
+  runs in a loop with a menu of choice
+
+con2
+  is a one-time script that requires arguments
+  use "conv2 help" to print an help screen 
