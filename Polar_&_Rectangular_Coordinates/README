@@ -8,3 +8,8 @@ conv.py
 con2
   is a one-time script that requires arguments
   use "conv2 help" to print an help screen 
+
+
+
+requirements:
+  gmpy2
