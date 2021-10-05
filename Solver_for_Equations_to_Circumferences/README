@@ -1,5 +1,0 @@
-this little program runs in a loop with a menu to choose what to do
-
-it can resolve equations to circumference in two ways:
-- RETURN THE EQUATION GIVEN THE CENTER COORDINATES AND THE RADIUS
-- RETURN THE CENTER COORDINATES AND THE RADIUS GIVEN THE EQUATION (the equation must be already solved to have x² and y² having value of 1 and being positive)
